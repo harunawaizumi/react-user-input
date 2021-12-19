@@ -4,6 +4,7 @@ import Divider from '@mui/material/Divider';
 import ListItemText from '@mui/material/ListItemText';
 
 const UserItem = (props) => {
+  console.log(props);
   return (
     <div>
       <ListItem alignItems="flex-start">

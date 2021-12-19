@@ -1,9 +1,12 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import UserItem from './UserItem';
 import List from '@mui/material/List';
 
 const Users = (props) => {
+  console.log(props.items);
   return (
+    <React.Fragment>
     <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
       {props.items.map((user) => (
         <UserItem
@@ -13,6 +16,7 @@ const Users = (props) => {
         />
       ))}
     </List>
+    </React.Fragment>
   )
 };
 

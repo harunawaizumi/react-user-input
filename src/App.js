@@ -1,8 +1,9 @@
 import react, {useState} from 'react';
+import ReactDOM from 'react-dom';
 import Users from './components/Users/Users';
 import NewUser from './components/NewUser/NewUser';
 import './App.css';
-
+import Button from '@mui/material/Button';
 const DUMMY_USERS = [
   {
     id: 'e1',
@@ -23,17 +24,16 @@ const DUMMY_USERS = [
 function App() {
   const [users, setUsers] = useState(DUMMY_USERS);
 
-  const addUserHandler = (user) => {
+  const addUserHandler = (props) => {
     setUsers((prevUser) => {
-      console.log(user);
-      console.log(users);
-
-      return [user, ...prevUser];
-    })
-    console.log(users);
+      return [{name: props.name, age: props.age, id: Math.random().toString() }, ...prevUser];
+    });
   }
+  console.log(ReactDOM);
   return (
     <div>
+      <div id="test"></div>
+     {ReactDOM.createPortal(<Button variant="text">Text</Button>, document.getElementById('root'))}
       <NewUser onAddUser={addUserHandler} />
       <Users items={users} />
     </div>

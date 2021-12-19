@@ -1,10 +1,12 @@
-import React, {useState} from 'react';
+import React, {useState, useRef} from 'react';
 import FlatButton from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
+import ErrorModal from '../UI/ErrorModal';
 
 const UserForm = (props) => {
   const [newName, setNewName] = useState('');
   const [newAge, setNewAge] = useState('');
+  const [error, setError] = useState('');
 
   const nameChangeHandler = (event) => {
     setNewName(event.target.value);
@@ -16,26 +18,44 @@ const UserForm = (props) => {
 
   const submitHander = (event) => {
     event.preventDefault();
+    if (newName.length === 0 || newAge.length === 0) {
+      setError({
+        title: 'Invalid input',
+        message: 'Please enter a valide name and age'
+      });
+      return;
+    }
+    if (+newAge < 1) {
+      setError({
+        title: 'Invalid age',
+        message: 'Please enter a valid name and age'
+      })
+      return ;
+    }
     const newUserData = {
       name: newName,
       age: newAge
     }
-        console.log('new user');
-        console.log(newUserData);
     props.saveUserDataHandler(newUserData);
 
     setNewName('');
     setNewAge('');
   }
 
+const errorHandler = () => {
+  setError(null);
+}
 
 
   return (
+    <div>
+  {error && <ErrorModal title={error.title} message={error.message} onConfirm={errorHandler}/>}
     <form onSubmit={submitHander}>
-    <TextField id="standard-basic" label="name" variant="standard" onChange={nameChangeHandler}/>
-    <TextField id="standard-basic" label="age" variant="standard" onChange={ageChangeHandler}/>
+    <TextField id="standard-basic" label="name" variant="standard" value={newName} onChange={nameChangeHandler}/>
+    <TextField id="standard-basic" label="age" variant="standard" value={newAge} onChange={ageChangeHandler}/>
     <FlatButton type="submit" variant="contained">Submit</FlatButton>
     </form>
+    </div>
   )
 };
 
